@@ -15,3 +15,31 @@
     14) npm install --save mongodb@2.2.31
 */
 
+// Step 2 
+const { MongoClient } = require('mongodb'); //connect to mongodb
+
+const url = 'mongodb://localhost:27017/test';
+
+/* Sample, test only
+MongoClient.connect(url,(err,db)=>{
+    if(err){
+        console.log('Could not connect')
+    }
+    console.log('connected !!!') // Go to terminal, type nodemon server.js, it should show connected
+    db.close(); //Need to close, if not it will stay frozen
+})
+*/
+
+// A new collection should appear in Robo 3T
+MongoClient.connect(url,(err,db)=>{
+    db.collection('Cars').insertOne({
+        model: 'Ford',
+        year: '2017'
+    },(err,res)=>{
+        if (err){
+            return console.log(`Cannot insert ${err}`)
+        }
+        console.log(res.ops[0]._id.getTimestamp()) 
+    }) 
+    db.close(); 
+})
